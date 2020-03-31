@@ -17,7 +17,8 @@ mongoose.connect(
 
 const QuestionSchema = new mongoose.Schema({
     question: String,
-    options: Array
+    options: Array,
+    correctAns : Number
 });
 
 const Question = new mongoose.model("questions", QuestionSchema);
@@ -33,7 +34,8 @@ app.post("/questions", function (req, res) {
     else {
         const qTemp = new Question({
             question: req.body.question,
-            options: req.body.options
+            options: req.body.options,
+            correctAns : req.body.correctAns
         });
 
         qTemp.save(function (err) {
@@ -67,7 +69,7 @@ app.put("/questions/:question", function (req, res) {
 
     Question.update(
         { question: question },
-        { question: req.body.question, options: req.body.options },
+        { question: req.body.question, options: req.body.options ,correctAns : req.body.correctAns},
         { overwrite: true },
         function (err) {
             if (!err) res.send("Updated successfully");
